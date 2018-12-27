@@ -4,21 +4,20 @@
             <img class="userIcon" src="~images/20150802102918_UZYdH.jpg" alt="">
             <div class="nickName">用户a</div>
         </div>
-
         <ul class="menu flex-row flex-x-around">
-            <li class="flex-col flex-x-center flex-y-center">
+            <li class="flex-col flex-x-center flex-y-center" @click="goOrderList(0)">
                 <img class="menuIcon" src="~images/dingdan.png" alt="">
                 <span>全部订单</span>
             </li>
-            <li class="flex-col flex-x-center flex-y-center">
+            <li class="flex-col flex-x-center flex-y-center" @click="goOrderList(1)">
                 <img class="menuIcon" src="~images/weibiaoti2fuzhi04.png" alt="">
                 <span>待付款</span>
             </li>
-            <li class="flex-col flex-x-center flex-y-center">
+            <li class="flex-col flex-x-center flex-y-center" @click="goOrderList(2)">
                 <img class="menuIcon" src="~images/daifahuo.png" alt="">
                 <span>待发货</span>
             </li>
-            <li class="flex-col flex-x-center flex-y-center">
+            <li class="flex-col flex-x-center flex-y-center" @click="goOrderList(3)">
                 <img class="menuIcon" src="~images/daishouhuo.png" alt="">
                 <span>待收货</span>
             </li>
@@ -50,7 +49,6 @@
     } from "vuex";
 
     export default {
-
         data() {
             return {
                 navList: [{
@@ -70,6 +68,12 @@
             ...mapActions(["showMsg"]),
             changeNav(item) {
                 this.navType = item.id
+            },
+            goOrderList(id) {
+                this.$router.push({
+                    name: "orderList",
+                    params: {id:id}
+                });
             }
         }
     };

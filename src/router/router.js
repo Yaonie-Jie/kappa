@@ -23,6 +23,14 @@ export default [{
     },
     component: () => import("@/views/my/index.vue"),
   },
+  {
+    path: "/orderList",
+    name: "orderList",
+    meta: {
+      title: "我的订单"
+    },
+    component: () => import("@/views/my/orderList.vue"),
+  },
 
 
 ];
