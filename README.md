@@ -1,4 +1,4 @@
-# ebei-web
+# kappa-web
 
 ## Project setup
 ```
