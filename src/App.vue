@@ -11,15 +11,19 @@
   </div>
 </template>
 <script>
-  import store from "./store";
   import msg from "@/components/msg";
   import loading from "@/components/loading";
   import tabbar from "@/components/tabbar";
+  import {
+    mapState,
+    mapActions
+  } from "vuex";
 
   export default {
     data: function () {
       return {
-        transition: 'fade'
+        transition: 'fade',
+        navPath: ['home', 'my', 'helpCenter', 'appIndex'],
       };
     },
     mounted: function () {
@@ -31,14 +35,21 @@
       tabbar: tabbar
     },
     computed: {
-      direction: state => store.state.direction
+      direction: state => store.state.direction,
+      bottomShow: state => state.tabbarShow
     },
     methods: {
+      ...mapActions(["hideTab","showTab"])
 
     },
     watch: {
       '$route'(to, from) {
-
+        let navIndex = this.navPath.indexOf(to.name);
+        if (navIndex == -1) {
+          this.hideTab();
+        } else {
+          this.showTab();
+        };
       }
     },
   };
