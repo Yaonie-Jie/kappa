@@ -31,6 +31,32 @@ export default [{
     },
     component: () => import("@/views/my/orderList.vue"),
   },
+  {
+    path: "/receiveAddress",
+    name: "receiveAddress",
+    meta: {
+      title: "收货地址"
+    },
+    component: () => import("@/views/my/receiveAddress.vue"),
+  },
+  {
+    path: "/addAddress",
+    name: "addAddress",
+    meta: {
+      title: "收货地址"
+    },
+    component: () => import("@/views/my/addAddress.vue"),
+  },
+  {
+    path: "/goodsMsg",
+    name: "goodsMsg",
+    meta: {
+      title: "商品详情"
+    },
+    component: () => import("@/views/goods/goodsMsg.vue"),
+  },
+
+  
 
 
 ];
