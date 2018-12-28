@@ -71,7 +71,7 @@
             },
             goOrderList(id) {
                 this.$router.push({
-                    name: "orderList",
+                    name: "order_list",
                     params: {id:id}
                 });
             },

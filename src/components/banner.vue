@@ -1,20 +1,16 @@
 <template>
-  <div class="banner-container">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="(item,index) in imgList" :key="index">
-          <img :src="item.banner_image_url">
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
-  </div>
+  <van-swipe class="goods-swipe" :autoplay="3000">
+    <van-swipe-item v-for="item in imgList" :key="item">
+      <img :src="item.banner_image_url">
+    </van-swipe-item>
+  </van-swipe>
 </template>
 
 <script>
-  import Swiper from "swiper";
-  import api from "@/utils/api";
-
+  import {
+    Swipe,
+    SwipeItem
+  } from 'vant';
   export default {
     name: "banner",
     props: {
@@ -23,64 +19,23 @@
         default: []
       }
     },
-    data() {
-      return {
-        nowSwiper: "" //swiper对象
-      };
-    },
-    activated() {},
-    deactivated() {
-      //keep-alive页面隐藏时销毁swiper
-      try {
-        this.nowSwiper.destroy(false);
-      } catch (err) {
-        console.log(err);
-      }
-    },
     mounted() {
-      this.nowSwiper = new Swiper(".banner-container .swiper-container", {
-        direction: "horizontal",
-        autoplay: true,
-        pagination: {
-          el: ".swiper-pagination"
-        }
-      });
-
 
     },
-    methods: {},
-    computed: {},
-    components: {}
+    components: {
+      [Swipe.name]: Swipe,
+      [SwipeItem.name]: SwipeItem
+    }
   };
 </script>
 <style lang="less" scoped>
-  .banner-container {
+  .goods-swipe {
+    height: 3.3rem;
     width: 100%;
 
-    .swiper-container {
-      height: 3.3rem;
+    img {
+      height: 100%;
       width: 100%;
-
-      .swiper-wrapper {
-        height: 100%;
-
-        .swiper-slide {
-          height: 100%;
-
-          img {
-            height: 100%;
-            width: 100%;
-          }
-        }
-      }
-
-      .swiper-pagination-bullet {
-        background: darkslateblue;
-      }
-
-      .swiper-pagination-bullet-active {
-        background: #c02c28;
-      }
     }
   }
 </style>

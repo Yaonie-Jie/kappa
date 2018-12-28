@@ -54,7 +54,7 @@
     <div v-else>
       <img class="schoolImg" v-if="navType==item.name" :src="item.banner_url" v-for="(item,index) in navList" :key="index">
       <ul class="cat_list flex-x-between">
-        <li class="flex-col" v-for="(item,index) in catList" :key="index">
+        <li class="flex-col" v-for="(item,index) in catList" :key="index" @click="toDetail(item.id)">
           <img :src="item.goods_front_image_url" alt="">
           <div class="catName">{{item.name}}</div>
           <div class="flex-row flex-y-center" style="padding:0 .18rem .18rem .18rem;">
@@ -88,8 +88,7 @@
     data() {
       return {
         navFixed: false,
-        // navType: 'home',
-        navType: '一中',
+        navType: 'home',
         navList: [],
         goodsList: [],
         bannerImg: [],
@@ -105,6 +104,7 @@
       changeNav(name) {
         if (name != 'home') {
           if (this.navType != name) {
+            this.navType = name
             this.getGoodList(name)
           }
         }
@@ -117,18 +117,18 @@
         });
         this.axios.get(api.indexgoods).then(res => {
           this.goodsList = res
-          console.log(res)
         });
         //轮播
-        this.axios.get(api.bannerList).then(res => {
-          this.bannerImg = res;
-        });
+        // this.axios.get(api.bannerList).then(res => {
+        //   this.bannerImg = res;
+        // });
         //二级轮播
         // this.axios.get(api.subbanners).then(res => {
         //   this.imgList = res;
         // });
       },
       getGoodList() {
+        console.log(this.navType)
         this.axios.get(api.goods, {
           params: {
             school: this.navType
@@ -146,6 +146,14 @@
           this.navFixed = false
         }
       },
+      toDetail(id) {
+        this.$router.push({
+          name: "goods_detail",
+          query: {
+            id: id
+          }
+        });
+      }
     },
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll)

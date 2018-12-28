@@ -24,12 +24,12 @@ export default [{
     component: () => import("@/views/my/index.vue"),
   },
   {
-    path: "/orderList",
-    name: "orderList",
+    path: "/order_list",
+    name: "order_list",
     meta: {
       title: "我的订单"
     },
-    component: () => import("@/views/my/orderList.vue"),
+    component: () => import("@/views/order/order_list.vue"),
   },
   {
     path: "/receiveAddress",
@@ -37,23 +37,23 @@ export default [{
     meta: {
       title: "收货地址"
     },
-    component: () => import("@/views/my/receiveAddress.vue"),
+    component: () => import("@/views/address/receiveAddress.vue"),
   },
   {
-    path: "/addAddress",
-    name: "addAddress",
+    path: "/address_add",
+    name: "address_add",
     meta: {
       title: "收货地址"
     },
-    component: () => import("@/views/my/addAddress.vue"),
+    component: () => import("@/views/address/address_add.vue"),
   },
   {
-    path: "/goodsMsg",
-    name: "goodsMsg",
+    path: "/goods_detail",
+    name: "goods_detail",
     meta: {
       title: "商品详情"
     },
-    component: () => import("@/views/goods/goodsMsg.vue"),
+    component: () => import("@/views/goods/goods_detail.vue"),
   },
 
   

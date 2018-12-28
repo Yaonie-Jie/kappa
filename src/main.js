@@ -7,7 +7,6 @@ import http from "./utils/http";
 
 import "./assets/css/common.less";
 import 'vant/lib/index.css';
-import 'swiper/dist/css/swiper.css';
 
 import { Button } from 'vant';
 
