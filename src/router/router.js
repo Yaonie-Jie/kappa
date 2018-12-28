@@ -9,7 +9,7 @@ export default [{
 
   {
     path: "/",
-    name: "index",
+    name: "home",
     meta: {
       title: "首页"
     },
