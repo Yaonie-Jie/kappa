@@ -80,7 +80,7 @@
             }
         },
         mounted: function () {
-            this.navType=this.$route.params.id
+            this.navType=this.$route.query.id
         },
         methods: {
             ...mapActions(["showMsg"]),

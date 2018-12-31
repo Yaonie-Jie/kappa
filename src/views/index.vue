@@ -37,7 +37,7 @@
             <img class="icon_right flex-grow-0" src="~images/icon_right.png" alt="">
           </div>
           <ul class="flex-col">
-            <li class="shopContent flex-row" v-for="(i,ind) in item.goods" :key="ind">
+            <li class="shopContent flex-row" v-for="(i,ind) in item.goods" :key="ind" @click="toDetail(i.id)">
               <img :src="i.goods_front_image_url" alt="">
               <div class="shopMsg flex-col flex-x-around">
                 <div>{{i.name}}</div>
@@ -65,10 +65,6 @@
         </li>
       </ul>
     </div>
-
-
-
-
   </div>
 </template>
 
@@ -153,7 +149,15 @@
             id: id
           }
         });
-      }
+      },
+      // goGoodDetail(){
+      //   this.$router.push({
+      //     name: "goods_detail",
+      //     query: {
+      //       id: id
+      //     }
+      //   });
+      // }
     },
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll)

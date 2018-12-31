@@ -27,7 +27,7 @@
         <ul class="carteList">
             <li class="flex-row flex-y-center" @click="goReceiveAddress">
                 <img class="cartLeft flex-grow-0" src="~images/shouhuodizhi.png" alt="">
-                <span class="flex-grow-1">收获地址</span>
+                <span class="flex-grow-1">收货地址</span>
                 <img class="cartRight flex-grow-0" src="~images/icon_right.png" alt="">
             </li>
             <li class="flex-row flex-y-center">
@@ -72,12 +72,12 @@
             goOrderList(id) {
                 this.$router.push({
                     name: "order_list",
-                    params: {id:id}
+                    query: {id:id}
                 });
             },
             goReceiveAddress(){
                  this.$router.push({
-                    name: "receiveAddress"
+                    name: "address_list"
                 });
             }
         }

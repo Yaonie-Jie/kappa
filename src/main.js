@@ -5,7 +5,7 @@ import store from "./store";
 
 import http from "./utils/http";
 
-import "./assets/css/common.less";
+import "./assets/css/common.css";
 import 'vant/lib/index.css';
 
 import { Button } from 'vant';

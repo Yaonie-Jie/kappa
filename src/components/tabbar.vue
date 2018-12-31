@@ -45,7 +45,7 @@
                         src: require("@/assets/images/gouwuche-2.png"),
                         clicked: require("@/assets/images/gouwuchered.png"),
                         text: '购物车',
-                        url: '/baseIndex/articles',
+                        url: '/shop_list',
                     },
                     {
                         name: 'my',

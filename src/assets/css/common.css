@@ -6,9 +6,11 @@ body {
   -o-user-select: none;
   user-select: none;
 }
-*{
+
+* {
   box-sizing: border-box;
 }
+
 html,
 body {
   line-height: 1.2;
@@ -345,32 +347,40 @@ span {
   align-items: center;
 }
 
-.f16{
-  font-size:.16rem!important;
+.f16 {
+  font-size: .16rem !important;
 }
-.f18{
-  font-size:.18rem!important;
+
+.f18 {
+  font-size: .18rem !important;
 }
-.f19{
-  font-size:.19rem!important;
+
+.f19 {
+  font-size: .19rem !important;
 }
-.f20{
-  font-size:.2rem!important;
+
+.f20 {
+  font-size: .2rem !important;
 }
-.f22{
-  font-size:.22rem!important;
+
+.f22 {
+  font-size: .22rem !important;
 }
-.f24{
-  font-size:.24rem!important;
+
+.f24 {
+  font-size: .24rem !important;
 }
-.f26{
-  font-size:.26rem!important;
+
+.f26 {
+  font-size: .26rem !important;
 }
-.f28{
-  font-size:.28rem!important;
+
+.f28 {
+  font-size: .28rem !important;
 }
-.f30{
-  font-size:.3rem!important;
+
+.f30 {
+  font-size: .3rem !important;
 }
 
 
@@ -453,4 +463,33 @@ span {
 }
 
 
-
+.van-sku-row__item--active {
+  color: #fff !important;
+  border-color: #5BC36D!important;
+  background: #5BC36D!important;
+}
+.van-sku-row__item {
+  margin: 0 10px 10px 0!important;
+  min-width: 52px!important;
+  width: 1.38rem!important;
+  height: .51rem!important;
+  font-size: 12px!important;
+  color: #333;
+  text-align: center!important;
+  border: 0!important;
+  border-radius: 14px!important;
+  background: #F3F4F6;
+}
+.van-button--bottom-action {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  border: 0;
+  border-radius: 0;
+  font-size: 16px;
+  color: #fff;
+  background-color: #5BC36D!important;
+}
+.van-button--bottom-action.van-button--primary {
+    background-color: #C02C28!important;
+}
