@@ -195,9 +195,6 @@
           this.sku.goods = goodsList
         });
       },
-      // formatPrice() {
-      //   return '¥' + (this.goods.price / 100).toFixed(2);
-      // },
       onClickCart() {
         // this.showBase=true
         this.$router.push('cart');
@@ -209,17 +206,26 @@
         Toast('暂无后续逻辑~');
       },
       onBuyClicked(e) {
-        console.log(e)
+        // console.log(e)
+        // this.axios.post(api.addshopcarts, {
+        //   goods: e.goodsId, // 商品id
+        //   nums: e.selectedNum, // 购买数量
+        //   size: e.selectedSkuComb.s2,
+        //   color: e.selectedSkuComb.s1,
+        // }).then(res => {
+
+        // });
+      },
+      onAddCartClicked(e) {
         this.axios.post(api.addshopcarts, {
           goods: e.goodsId, // 商品id
           nums: e.selectedNum, // 购买数量
           size: e.selectedSkuComb.s2,
-          color:e.selectedSkuComb.s1,
+          color: e.selectedSkuComb.s1,
         }).then(res => {
 
         });
       },
-      onAddCartClicked() {},
       setSku(pro) {
         console.log(pro)
       },
