@@ -27,7 +27,8 @@ export default [{
     path: "/order_list",
     name: "order_list",
     meta: {
-      title: "我的订单"
+      title: "我的订单",
+      requireAuth: true
     },
     component: () => import("@/views/order/order_list.vue"),
   },
@@ -64,7 +65,7 @@ export default [{
     component: () => import("@/views/shop/shop_list.vue"),
   },
 
-  
+
 
 
 ];

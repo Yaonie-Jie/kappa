@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     direction: "forward",
+    token: '',
     loading: false,
     msg: {
       show: false,
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     HIDE_TABBAR(state) {
       state.tabbarShow = false;
+    },
+    SET_TOKEN: (state, token) => {
+      state.token = token
     },
   },
 

@@ -1,9 +1,9 @@
 import axios from "axios";
+import store from "../store";
 
-let env = "h5";
 
 const service = axios.create({
-  baseURL:'api',
+  baseURL: 'api',
   timeout: 20000,
   headers: {
     "Content-Type": "application/json"
@@ -12,8 +12,8 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    if (env == "h5") {
-      config.headers.sign = "1111";
+    if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
+      config.headers.Authorization = `JWT ${store.state.token}`;
     }
     return config;
   },

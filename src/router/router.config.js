@@ -7,23 +7,25 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: routerMap
 });
 
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title || "kappa";
-
-
   // 判断页面是否需要登录才能访问，是的话没登陆的去登陆
-  if (to.matched.some(r => r.meta.requireAuth)) {
-    if (store.state.user.token != null) {
+  if (to.meta.requireAuth) {
+    if (store.state.token) {
       next();
     } else {
       next({
         name: "login",
-        query: { redirect: to.fullPath }
+        query: {
+          redirect: to.fullPath
+        }
       });
     }
   } else {

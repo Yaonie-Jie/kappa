@@ -150,7 +150,6 @@
               name: tmpsubList2[w].size.desc
             })
           }
-          console.log(subList3)
 
           //图片
           var photoList = []
@@ -211,6 +210,14 @@
       },
       onBuyClicked(e) {
         console.log(e)
+        this.axios.post(api.addshopcarts, {
+          goods: e.goodsId, // 商品id
+          nums: e.selectedNum, // 购买数量
+          size: e.selectedSkuComb.s2,
+          color:e.selectedSkuComb.s1,
+        }).then(res => {
+
+        });
       },
       onAddCartClicked() {},
       setSku(pro) {
@@ -301,6 +308,4 @@
       margin-left: 5px;
     }
   }
-
-
 </style>
