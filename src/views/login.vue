@@ -1,8 +1,20 @@
 <template>
-  <div class="login">
-    <input class="mobile_input" type="text" v-model="mobile">
-    <input type="text" v-model="password">
-    <div class="login_btn" @click="login">登录</div>
+  <div class="content flex flex-col login">
+    <div class="login_bg">
+      <img src="~images/login_bg.png" alt="">
+    </div>
+    <div class="flex-col inputList">
+      <div class="login_input">
+        <input class="mobile_input" type="text" v-model="mobile" placeholder="用户名" />
+      </div>
+      <div class="login_input">
+        <input type="text" v-model="password" placeholder="密码" />
+      </div>
+    </div>
+    <div class="flex-col butList">
+      <div class="login_but redBut" @click="login">立即登录</div>
+      <div class="login_but">创建账号</div>
+    </div>
   </div>
 </template>
 <script>
@@ -37,17 +49,49 @@
   };
 </script>
 <style <style lang="less" scoped>
-  .login {
-    height: 100%;
-    background: #fff;
-
-    .mobile_input {
-      width: 2rem;
-      height: 1rem;
-    }
+  .content {
+    background: #F4F4F4 !important;
   }
 
-  input {
-    border: 1px solid red;
+  .login_bg {
+    height: 5.15rem;
+  }
+
+  .inputList {
+    padding: 0 .84rem;
+
+    .login_input {
+      height: 1.03rem;
+
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-bottom: solid #999 1px;
+        font-size: .36rem;
+        color: #999;
+        background: #f4f4f4;
+      }
+    }
+  }
+  .butList{
+    padding:0 .85rem;
+    margin-top:.74rem;
+  }
+
+  .login_but {
+    width: 100%;
+    height: .98rem;
+    background: #f4f4f4;
+    font-size:.36rem;
+    color:#C02C28;
+    border:solid #C02C28 1px;
+    text-align: center;
+    line-height: .98rem;
+    margin:.27rem 0;
+  }
+  .redBut{
+    background: rgba(192, 44, 40, 1);
+    color:#fff;
   }
 </style>
