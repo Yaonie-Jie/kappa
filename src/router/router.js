@@ -6,7 +6,14 @@ export default [{
     },
     component: () => import("@/views/login.vue")
   },
-
+  {
+    path: "/register",
+    name: "register",
+    meta: {
+      title: "注册"
+    },
+    component: () => import("@/views/register.vue")
+  },
   {
     path: "/",
     name: "home",
@@ -31,6 +38,15 @@ export default [{
       requireAuth: true
     },
     component: () => import("@/views/order/order_list.vue"),
+  },
+  {
+    path: "/order_plance",
+    name: "order_plance",
+    meta: {
+      title: "确定下单",
+      requireAuth: true
+    },
+    component: () => import("@/views/order/order_plance.vue"),
   },
   {
     path: "/address_add",

@@ -13,7 +13,7 @@
     </div>
     <div class="flex-col butList">
       <div class="login_but redBut" @click="login">立即登录</div>
-      <div class="login_but">创建账号</div>
+      <div class="login_but" @click="register">创建账号</div>
     </div>
   </div>
 </template>
@@ -44,6 +44,11 @@
               });
             }
           });
+      },
+      register() {
+        this.$router.push({
+          name: "register"
+        });
       }
     }
   };
@@ -74,24 +79,26 @@
       }
     }
   }
-  .butList{
-    padding:0 .85rem;
-    margin-top:.74rem;
+
+  .butList {
+    padding: 0 .85rem;
+    margin-top: .74rem;
   }
 
   .login_but {
     width: 100%;
     height: .98rem;
     background: #f4f4f4;
-    font-size:.36rem;
-    color:#C02C28;
-    border:solid #C02C28 1px;
+    font-size: .36rem;
+    color: #C02C28;
+    border: solid #C02C28 1px;
     text-align: center;
     line-height: .98rem;
-    margin:.27rem 0;
+    margin: .27rem 0;
   }
-  .redBut{
+
+  .redBut {
     background: rgba(192, 44, 40, 1);
-    color:#fff;
+    color: #fff;
   }
 </style>

@@ -493,3 +493,7 @@ span {
 .van-button--bottom-action.van-button--primary {
     background-color: #C02C28!important;
 }
+.van-stepper__input[disabled] {
+  color: #7d7e80!important;
+  background-color: #fff!important;
+}

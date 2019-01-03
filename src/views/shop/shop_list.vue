@@ -16,7 +16,8 @@
                             <div class="shopPrice">￥{{i.goods.discount_price}}</div>
                         </div>
                         <div class="flex-grow-0 flex-y-center">
-                            <van-stepper v-model="i.nums" @plus="plusStep(i,index)" @minus="minusStep(i,index)" />
+                            <van-stepper v-model="i.nums" @plus="plusStep(i,index)" @minus="minusStep(i,index)"
+                                disable-input />
                         </div>
                     </div>
                 </div>
@@ -29,7 +30,7 @@
             </div>
             <div class="flex-row">
                 <div class="goodsNum">共{{goodNum}}件商品</div>
-                <div class="goodsSubmit">提交订单</div>
+                <div class="goodsSubmit" @click="submitOrder">提交订单</div>
             </div>
 
         </div>
@@ -80,24 +81,51 @@
             },
             checkChange(event) {
                 if (event.checked == true) {
-                    this.totlaPrice += (event.goods.discount_price)*(event.nums)
+                    this.totlaPrice += (event.goods.discount_price) * (event.nums)
                     this.goodNum++
                 } else if (event.checked == false) {
-                    this.totlaPrice -= (event.goods.discount_price)*(event.nums)
+                    this.totlaPrice -= (event.goods.discount_price) * (event.nums)
                     this.goodNum--
                 }
             },
             plusStep(event, index) {
-                if (event.checked == true) {
-                    this.totlaPrice += event.goods.discount_price
-                    // this.goodNum++
-                }
+                console.log(event)
+                this.axios.patch(api.addshopcarts + event.goods.id + '/', {
+                    nums: event.nums+1,
+                    color: event.color,
+                    size: event.size
+                }).then(res => {
+                    if (event.checked == true) {
+                        this.totlaPrice += event.goods.discount_price
+                        // this.goodNum++
+                    }
+                });
             },
-            minusStep(event,index){
-                if (event.checked == true) {
-                    this.totlaPrice -= event.goods.discount_price
-                    // this.goodNum--
-                } 
+            minusStep(event, index) {
+                this.axios.patch(api.addshopcarts + event.goods.id + '/', {
+                    nums: event.nums-1,
+                    color: event.color,
+                    size: event.size
+                }).then(res => {
+                    if (event.checked == true) {
+                        this.totlaPrice -= event.goods.discount_price
+                        // this.goodNum--
+                    }
+                });
+            },
+            changeStep(event, index) {
+                this.axios.patch(api.addshopcarts + event.goods.id + '/', {
+                    nums: event.nums,
+                    color: event.color,
+                    size: event.size
+                }).then(res => {
+
+                });
+            },
+            submitOrder() {
+                this.$router.push({
+                    name: "order_plance"
+                });
             }
         }
     };
@@ -184,5 +212,7 @@
             font-size: .36rem;
             text-align: center;
         }
+
+      
     }
 </style>
