@@ -23,6 +23,7 @@
                 </div>
             </div>
         </div>
+
         <div class="flex-row flex-x-between settelBut">
             <div class="flex-row">
                 <div class="setLeftTitle">应付总额:</div>
@@ -32,7 +33,6 @@
                 <div class="goodsNum">共{{goodNum}}件商品</div>
                 <div class="goodsSubmit" @click="submitOrder">提交订单</div>
             </div>
-
         </div>
     </div>
 </template>

@@ -1,7 +1,24 @@
 <template>
     <div class="content flex flex-col">
-        <van-address-edit :area-list="areaList" show-postal show-delete show-set-default show-search-result
-            :search-result="searchResult" @save="onSave" @delete="onDelete" @change-detail="onChangeDetail" />
+        <div class="addAddress_row">
+            <input type="text" placeholder="收货人姓名(请使用真实姓名）">
+        </div>
+        <div class="addAddress_row">
+            <input type="text" placeholder="手机号码">
+        </div>
+        <div class="addAddress_row">
+            <input type="text" placeholder="所在地区">
+        </div>
+        <div class="addAddress_row">
+            <input type="text" placeholder="详细地址">
+        </div>
+
+        <div class="addAddress_row flex-row">
+            <div class="flex-grow-1"></div>    
+            <div class="flex-grow-0"></div>           
+        </div>
+
+
     </div>
 </template>
 
@@ -11,37 +28,33 @@
         mapState,
         mapActions
     } from "vuex";
-    import {
-        AddressEdit
-    } from 'vant';
-    Vue.use(AddressEdit);
+
 
     export default {
         data() {
             return {
-                areaList,
-                searchResult: []
+
             }
         },
         mounted: function () {},
         methods: {
             ...mapActions(["showMsg"]),
-            onSave() {
-                Toast('save');
-            },
-            onDelete() {
-                Toast('delete');
-            },
-            onChangeDetail(val) {
-                if (val) {
-                    this.searchResult = [{
-                        name: '黄龙万科中心',
-                        address: '杭州市西湖区'
-                    }];
-                } else {
-                    this.searchResult = [];
-                }
-            }
+            // onSave() {
+            //     Toast('save');
+            // },
+            // onDelete() {
+            //     Toast('delete');
+            // },
+            // onChangeDetail(val) {
+            //     if (val) {
+            //         this.searchResult = [{
+            //             name: '黄龙万科中心',
+            //             address: '杭州市西湖区'
+            //         }];
+            //     } else {
+            //         this.searchResult = [];
+            //     }
+            // }
 
         }
     };
@@ -50,5 +63,20 @@
 <style lang="less" scoped>
     .content {
         background: #eee;
+    }
+
+    .addAddress_row {
+        width: 7.5rem;
+        height: .9rem;
+        background: #fff;
+        padding: 0 .29rem;
+        font-size: .28rem;
+        color: #999;
+        margin-bottom: 0.02rem;
+
+        input {
+            width: 100%;
+            height: 100%;
+        }
     }
 </style>
