@@ -10,49 +10,31 @@
             <img src="~images/border_floot.png" alt="">
         </div>
 
-        <div class="shopNumTitle flex-y-center">1件商品</div>
+        <div class="shopNumTitle flex-y-center">{{goodNum}}件商品</div>
 
         <div class="flex-col shopList">
-            <div class="commodity flex-row flex-y-center">
-                <div class="flex-grow-0 flex-y-center flex-x-center shopImg">
-                    <img src="~images/1.png" alt="">
-                </div>
-                <div class="flex-grow-1 flex-x-center flex-col shopMsg">
-                    <div class="shopTitle">【老鼠去春游】商品标题商品标题商品标题商品标题</div>
-                    <div class="flex-row shop_color_price">
-                        <div class="flex-grow-1 flex-col">
-                            <div class="shopColor">颜色:琥珀色</div>
-                        </div>
-                        <div class="flex-grow-0 flex-y-center">
-                            <div class="shopPrice">￥268</div>
-                        </div>
-                    </div>
-                    <div class="shop_num">X1</div>
-                </div>
-            </div>
-            <!-- <div class="commodity flex-row flex-y-center" v-for="(i,index) in shopList" :key="index">
+            <div class="commodity flex-row flex-y-center" v-for="(i,index) in submitList" :key="index">
                 <div class="flex-grow-0 flex-y-center flex-x-center shopImg">
                     <img :src="i.goods.goods_front_image_url" alt="">
                 </div>
                 <div class="flex-grow-1 flex-x-center flex-col shopMsg">
                     <div class="shopTitle">{{i.goods.name}}</div>
-                    <div class="flex-row">
+                    <div class="flex-row shop_color_price">
                         <div class="flex-grow-1 flex-col">
                             <div class="shopColor">{{i.color_name}} {{i.size_name}}</div>
-                            <div class="shopPrice">￥{{i.goods.discount_price}}</div>
                         </div>
                         <div class="flex-grow-0 flex-y-center">
-                            <van-stepper v-model="i.nums" @plus="plusStep(i,index)" @minus="minusStep(i,index)"
-                                disable-input />
+                            <div class="shopPrice">￥{{i.goods.discount_price}}</div>
                         </div>
                     </div>
+                    <div class="shop_num">X{{i.nums}}</div>
                 </div>
-            </div> -->
+            </div>
         </div>
 
         <div class="flex-x-between shop_div flex-y-center">
             <div>商品合计</div>
-            <div>￥268</div>
+            <div>￥{{totlaPrice}}</div>
         </div>
         <div class="flex-x-between shop_div flex-y-center">
             <div>运费</div>
@@ -82,11 +64,14 @@
         data() {
             return {
                 totlaPrice:0,
-                goodNum:0
+                goodNum:0,
+                submitList:[],
             }
         },
         mounted: function () {
-
+            this.submitList=JSON.parse(this.$route.query.submitList)
+            this.goodNum=JSON.parse(this.$route.query.submitList).length
+            this.getTotalPrice(this.submitList)
         },
         methods: {
             ...mapActions(["showMsg"]),
@@ -98,6 +83,13 @@
             submitOrder(){
 
             },
+            getTotalPrice(info){
+                for(var i=0;i<info.length;i++){
+                    if(info[i].checked==true){
+                        this.totlaPrice+=(info[i].goods.discount_price)*(info[i].nums)
+                    }
+                }
+            }
 
         }
     };

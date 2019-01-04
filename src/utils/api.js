@@ -10,4 +10,7 @@ export default {
 
   /******购物车******/
   addshopcarts:"/shopcarts/",//添加购物车
+  /******地址******/
+  address:"/address/",
+  //添加收货地址 post 获取收货地址 get  修改收货地址 patch addressId  传参
 };

@@ -57,6 +57,10 @@
         SubmitBar
     } from 'vant';
     Vue.use(SubmitBar);
+    import {
+        Toast
+    } from 'vant';
+    Vue.use(Toast);
 
     export default {
         data() {
@@ -64,6 +68,8 @@
                 shopList: [],
                 totlaPrice: 0,
                 goodNum: 0,
+                submitList: [],
+                isSubmit: 0
             }
         },
         mounted: function () {
@@ -91,7 +97,7 @@
             plusStep(event, index) {
                 console.log(event)
                 this.axios.patch(api.addshopcarts + event.goods.id + '/', {
-                    nums: event.nums+1,
+                    nums: event.nums + 1,
                     color: event.color,
                     size: event.size
                 }).then(res => {
@@ -103,7 +109,7 @@
             },
             minusStep(event, index) {
                 this.axios.patch(api.addshopcarts + event.goods.id + '/', {
-                    nums: event.nums-1,
+                    nums: event.nums - 1,
                     color: event.color,
                     size: event.size
                 }).then(res => {
@@ -113,19 +119,21 @@
                     }
                 });
             },
-            changeStep(event, index) {
-                this.axios.patch(api.addshopcarts + event.goods.id + '/', {
-                    nums: event.nums,
-                    color: event.color,
-                    size: event.size
-                }).then(res => {
-
-                });
-            },
             submitOrder() {
-                this.$router.push({
-                    name: "order_plance"
-                });
+                for (var i = 0; i < this.shopList.length; i++) {
+                    if (this.shopList[i].checked == true) {
+                        this.submitList.push(this.shopList[i])
+                        this.isSubmit++
+                    }
+                }
+                if (this.isSubmit == 0) {
+                    Toast('您还没有选择商品哦');
+                } else {
+                    this.$router.push({
+                        name: "order_plance",
+                         query: {submitList:JSON.stringify(this.submitList)}
+                    });
+                }
             }
         }
     };
@@ -213,6 +221,6 @@
             text-align: center;
         }
 
-      
+
     }
 </style>
