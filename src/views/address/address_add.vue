@@ -37,6 +37,7 @@
 </template>
 
 <script>
+    import api from "@/utils/api";
     import Vue from "vue";
     import area from "@/utils/area";
     import {
@@ -93,21 +94,28 @@
                     this.showArea += e[i].name + ' '
                 }
                 this.show = false
-                this.newAddress.province=e[0].name
-                this.newAddress.city=e[1].name
-                this.newAddress.area=e[2].name
+                this.newAddress.province = e[0].name
+                this.newAddress.city = e[1].name
+                this.newAddress.area = e[2].name
             },
             addAddress() {
                 if (this.newAddress.receiveName == '') {
                     Toast('请输入收货人姓名');
-                }else if (this.newAddress.phone == '') {
+                } else if (this.newAddress.phone == '') {
                     Toast('请输入手机号码');
-                }else if (this.showArea == '所在地区') {
+                } else if (this.showArea == '所在地区') {
                     Toast('请选择所在地区');
-                }else if (this.newAddress.addr == '') {
+                } else if (this.newAddress.addr == '') {
                     Toast('请输入详细地址');
-                }else{
-                    console.log(this.newAddress)
+                } else {
+                    this.axios
+                        .post(api.address, this.newAddress)
+                        .then(res => {
+                            Toast('添加成功');
+                            this.$router.push({
+                                name: "address_list"
+                            });
+                        });
                 }
             },
         }

@@ -23,7 +23,7 @@
     data: function () {
       return {
         transition: 'fade',
-        navPath: ['home', 'my', 'shop_list'],
+        navPath: ['home', 'my', 'shop_list','school'],
       };
     },
     mounted: function () {

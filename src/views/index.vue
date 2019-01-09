@@ -20,7 +20,7 @@
       <li :class="{'active':navType==item.name}" v-for="(item,index) in navList" :key="index" @click="changeNav(item.name)">{{item.name}}</li>
     </ul>
 
-    <div v-if="navType=='home'">
+    <div>
       <banner :imgList="bannerImg"></banner>
 
       <div class="hot flex-row flex-x-between">
@@ -48,20 +48,6 @@
               </div>
             </li>
           </ul>
-        </li>
-      </ul>
-    </div>
-    <div v-else>
-      <img class="schoolImg" v-if="navType==item.name" :src="item.banner_url" v-for="(item,index) in navList" :key="index">
-      <ul class="cat_list flex-x-between">
-        <li class="flex-col" v-for="(item,index) in catList" :key="index" @click="toDetail(item.id)">
-          <img :src="item.goods_front_image_url" alt="">
-          <div class="catName">{{item.name}}</div>
-          <div class="flex-row flex-y-center" style="padding:0 .18rem .18rem .18rem;">
-            <span class="price flex-grow-0">¥{{item.price}}</span>
-            <span class="xiaoliang flex-grow-1">销量{{item.sold_num}}</span>
-            <img class="che flex-grow-0" src="~images/gouwuchered.png">
-          </div>
         </li>
       </ul>
     </div>
@@ -96,15 +82,14 @@
       window.addEventListener('scroll', this.handleScroll)
     },
     methods: {
-      ...mapActions(["showMsg"]),
+      ...mapActions(["showMsg", "updata_clickTab"]),
       changeNav(name) {
         if (name != 'home') {
-          if (this.navType != name) {
-            this.navType = name
-            this.getGoodList(name)
-          }
+          this.updata_clickTab('school');
+          this.$router.push({
+            name: "school"
+          });
         }
-        this.navType = name
       },
       init() {
         //分类
@@ -115,9 +100,9 @@
           this.goodsList = res
         });
         //轮播
-        // this.axios.get(api.bannerList).then(res => {
-        //   this.bannerImg = res;
-        // });
+        this.axios.get(api.bannerList).then(res => {
+          this.bannerImg = res;
+        });
         //二级轮播
         // this.axios.get(api.subbanners).then(res => {
         //   this.imgList = res;

@@ -31,6 +31,14 @@ export default [{
     component: () => import("@/views/my/index.vue"),
   },
   {
+    path: "/school",
+    name: "school",
+    meta: {
+      title: "学校"
+    },
+    component: () => import("@/views/school/index.vue"),
+  },
+  {
     path: "/order_list",
     name: "order_list",
     meta: {
@@ -60,7 +68,8 @@ export default [{
     path: "/address_list",
     name: "address_list",
     meta: {
-      title: "收货地址"
+      title: "收货地址",
+      requireAuth: true
     },
     component: () => import("@/views/address/address_list.vue"),
   },
@@ -76,7 +85,8 @@ export default [{
     path: "/shop_list",
     name: "shop_list",
     meta: {
-      title: "购物车"
+      title: "购物车",
+      requireAuth: true
     },
     component: () => import("@/views/shop/shop_list.vue"),
   },

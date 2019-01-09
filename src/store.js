@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     direction: "forward",
-    token: '',
+    token: localStorage.getItem('token'),
     loading: false,
     msg: {
       show: false,

@@ -1,7 +1,7 @@
 <template>
     <div class="bottom-tab" v-show="bottomShow">
         <div class="bottom-item flex-col flex-x-center flex-y-center" v-for="item in clickItems" :key="item.name"
-            @click="changeTab(item.name,item.url)">
+            @click="changeTab(item.name)">
             <div class="item-img">
                 <img v-show="clickTab!==item.name" :src="item.src">
                 <transition name="big-tab">
@@ -34,14 +34,14 @@
                         url: '/',
                     },
                     {
-                        name: 'company',
+                        name: 'school',
                         src: require("@/assets/images/fenlei-3.png"),
                         clicked: require("@/assets/images/fenlei-3red.png"),
                         text: '学校',
-                        url: '/baseIndex/company',
+                        url: '/school',
                     },
                     {
-                        name: 'articles',
+                        name: 'shop_list',
                         src: require("@/assets/images/gouwuche-2.png"),
                         clicked: require("@/assets/images/gouwuchered.png"),
                         text: '购物车',
@@ -66,9 +66,11 @@
             ...mapActions(["updata_clickTab"]),
 
             //切换底部按钮点击事件
-            changeTab(name, url) {
+            changeTab(name) {
                 this.updata_clickTab(name);
-                this.$router.push(url);
+                this.$router.push({
+                    name: name
+                });
             }
         },
         watch: {

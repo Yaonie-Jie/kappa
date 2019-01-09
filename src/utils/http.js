@@ -9,7 +9,6 @@ const service = axios.create({
     "Content-Type": "application/json"
   }
 });
-
 service.interceptors.request.use(
   config => {
     if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token

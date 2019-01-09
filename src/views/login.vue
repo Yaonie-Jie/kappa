@@ -38,6 +38,7 @@
           })
           .then(res => {
             if (res.code == 0) {
+              localStorage.setItem('token',res.token)
               this.$store.commit("SET_TOKEN", res.token);
               this.$router.push({
                 name: "home"
