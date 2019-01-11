@@ -2,29 +2,84 @@
     <div class="content flex flex-y-center">
         <div class="flex-col flex-y-center registerContent">
             <div class="register_input">
-                <input type="number" placeholder="请输入您的手机号">
+                <input type="text" pattern="[0-9]*" maxlength="11" placeholder="请输入您的手机号" v-model="iphone">
             </div>
             <div class="code_input flex-row flex-y-center">
-                <input type="number" class="flex-grow-1" placeholder="请输入您的验证码">
-                <div class="flex-grow-0 getCode">获取验证码</div>
+                <input type="number" maxlength="6" pattern="[0-9]*" class="flex-grow-1" placeholder="请输入您的验证码" v-model="verfCode">
+                <div class="flex-grow-0 getCode" @click="getCode">{{codeText}}</div>
             </div>
             <div class="register_input">
-                <input type="password" placeholder="请输入密码">
+                <input type="password" maxlength="6" pattern="[0-9]*" placeholder="请输入密码" v-model="password">
             </div>
-            <div class="register_submit">注册</div>
+            <div class="register_submit" @click="register">注册</div>
         </div>
     </div>
 </template>
 <script>
+    import Vue from "vue";
     import api from "@/utils/api";
+    import {
+        Toast
+    } from 'vant';
+    Vue.use(Toast);
     export default {
         data: function () {
             return {
-
+                codeText: '获取验证码',
+                iphone: '',
+                verfCode: '',
+                time: 60,
+                password: '',
+                iphonetest: /^1(3|4|5|6|7|8|9)\d{9}$/,
+                isdisabled: true
             };
         },
         mounted: function () {},
         methods: {
+            getCode() {
+                if (this.isdisabled) {
+                    if (this.iphone && this.iphonetest.test(this.iphone)) {
+                        this.setTime()
+                        this.isdisabled = false
+                        this.axios.post(api.getMessage, {
+                            mobile: this.iphone,
+                        }).then(res => {
+
+                        });
+                    } else {
+                        Toast('请输入正确的手机号');
+                    }
+                }
+            },
+            setTime() {
+                let _this = this;
+                setInterval(() => {
+                    if (_this.time > 0) {
+                        _this.codeText = _this.time + "s";
+                        _this.time--;
+                         _this.isdisabled = false
+                    } else {
+                        _this.codeText = "获取验证码";
+                        _this.time = 60;
+                        _this.isdisabled = true;
+                    }
+                }, 1000);
+            },
+            register() {
+                if (this.iphone && this.iphonetest.test(this.iphone) && this.verfCode && this.password) {
+                    this.axios.post(api.getMessage, {
+                        username: this.iphone,
+                        password: this.password,
+                        code: this.verfCode,
+                        mobile: this.iphone,
+                    }).then(res => {
+
+                    }).catch(function (error) {
+                        Toast(error);
+                    });
+                }
+
+            }
 
         }
     };
@@ -81,9 +136,9 @@
             width: 100%;
             height: .98rem;
             background: rgba(192, 44, 40, 1);
-            color:#fff;
-            font-size:.36rem;
-            margin-top:1.07rem;
+            color: #fff;
+            font-size: .36rem;
+            margin-top: 1.07rem;
             line-height: .98rem;
             text-align: center;
         }

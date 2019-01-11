@@ -27,18 +27,18 @@
     export default {
         data() {
             return {
-                list: []
+                list: [],
+                submitList: []
             }
         },
         mounted: function () {
             this.init()
+            // this.submitList = JSON.parse(this.$route.query.submitList)
         },
         methods: {
             ...mapActions(["showMsg"]),
             init() {
-                this.axios
-                    .get(api.address)
-                    .then(res => {
+                this.axios.get(api.address).then(res => {
                         this.list = res
                     });
             },
