@@ -129,9 +129,9 @@
                 if (this.isSubmit == 0) {
                     Toast('您还没有选择商品哦');
                 } else {
+                    sessionStorage.setItem('submitList',JSON.stringify(this.submitList))
                     this.$router.push({
-                        name: "order_plance",
-                         query: {submitList:JSON.stringify(this.submitList)}
+                        name: "order_plance"
                     });
                 }
             }

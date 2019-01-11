@@ -2,7 +2,7 @@
     <div class="content flex flex-col">
         <ul class="menu flex-row flex-x-around">
             <li class="flex-x-center flex-y-center" @click="goOrderList(item)" v-for="(item,index) in menuList" :key="index"
-                :class="{'borderRed':navType==item.id}">{{item.name}}</li>
+                :class="{'borderRed':trade_status==item.id}">{{item.name}}</li>
         </ul>
         <div class="flex-col">
             <div class="ordershow flex-col" v-for="item in list" :key="item.id">
@@ -13,16 +13,16 @@
                     <div class="flex-grow-1 commodityIntro flex-col flex-x-center">
                         <div class="commodityTitle">{{i.goods.name}}</div>
                         <div class="commoditySpeci flex-x-between ">
-                            <div>已选：黑色 XL</div>
+                            <!-- <div>已选：{{i.color}}</div> -->
                             <div>X1</div>
                         </div>
                     </div>
                 </div>
-                <div class="commodityNum flex-x-end"> 共1件 退款金额:￥{{item.order_mount}}</div>
+                <div class="commodityNum flex-x-end"> 共1件 金额:￥{{item.order_mount}}</div>
                 <div class="commodityState flex-x-end">
-                    <div class="operationBut">申请售后</div>
-                    <div class="operationBut">取消订单</div>
-                    <a class="operationBut payBut" :href="item.alipay_url">去支付</a>
+                    <!-- <div class="operationBut">申请售后</div> -->
+                    <div class="operationBut" v-if="item.pay_status == 'paying'" @click="cancal(item)">取消订单</div>
+                    <a class="operationBut payBut" v-if="item.pay_status == 'paying'" :href="item.alipay_url">去支付</a>
                 </div>
             </div>
         </div>
@@ -39,10 +39,10 @@
     export default {
         data() {
             return {
-                navType: 2,
+                trade_status: '',
                 menuList: [{
                     name: '全部',
-                    id: 0
+                    id: ''
                 }, {
                     name: '待付款',
                     id: 1
@@ -56,11 +56,11 @@
                     name: '待评价',
                     id: 4
                 }],
-                list:[]
+                list: []
             }
         },
         mounted: function () {
-            this.navType = this.$route.query.id
+            this.trade_status = this.$route.query.id
             this.init()
         },
         methods: {
@@ -68,13 +68,26 @@
             init() {
                 this.list = []
                 this.axios
-                    .get(api.orders)
+                    .get(api.orders, {
+                        params: {
+                            trade_status: this.trade_status
+                        }
+                    })
                     .then(res => {
                         this.list = res
                     });
             },
             goOrderList(item) {
-                this.navType = item.id
+                this.trade_status = item.id
+                this.init()
+            },
+            cancal(item) {
+                this.axios
+                    .delete(api.orders + item.id + '/')
+                    .then(res => {
+                        this.showMsg('取消订单成功')
+                        this.init()
+                    });
             }
         }
     };

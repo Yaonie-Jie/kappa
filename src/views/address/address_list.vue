@@ -1,11 +1,11 @@
 <template>
     <div class="content flex flex-col">
-        <div class="address flex-row flex-y-center" v-for="(i,index) in list" :key="index">
+        <div class="address flex-row flex-y-center" v-for="(i,index) in list" :key="index" @click="toOrder(i)">
             <div class="flex-grow-1 flex-col flex-x-center">
                 <div>{{i.signer_name}} {{i.signer_mobile}}</div>
                 <div class="address_font">{{i.province+i.city+i.district}}</div>
             </div>
-            <div class="flex-grow-0 flex-y-center address_edit flex-x-end">
+            <div class="flex-grow-0 flex-y-center address_edit flex-x-end" @click="updataAddress(i)">
                 <img src="~images/edit.png" alt="">
             </div>
         </div>
@@ -45,6 +45,22 @@
             addAddreaa() {
                 this.$router.push({
                     name: "address_add"
+                });
+            },
+            toOrder(i) {
+                this.$router.push({
+                    name: "order_plance",
+                    query: {
+                        id: JSON.stringify(i)
+                    }
+                });
+            },
+            updataAddress(i) {
+                this.$router.push({
+                    name: "address_add",
+                    query: {
+                        id: JSON.stringify(i)
+                    }
                 });
             }
 

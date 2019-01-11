@@ -1,17 +1,17 @@
 <template>
     <div class="content flex flex-col">
         <div class="addAddress_row">
-            <input type="text" placeholder="收货人姓名(请使用真实姓名）" v-model="newAddress.receiveName">
+            <input type="text" placeholder="收货人姓名(请使用真实姓名）" v-model="newAddress.signer_name">
         </div>
         <div class="addAddress_row">
-            <input type="text" placeholder="手机号码" v-model="newAddress.phone">
+            <input type="text" pattern="[0-9]*" maxlength="11" placeholder="手机号码" v-model="newAddress.signer_mobile">
         </div>
         <div class="addAddress_row">
             <div class="addrsss_select  flex-y-center" @click="addressSelect">{{showArea}}</div>
             <!-- <input type="text" placeholder="所在地区" @click="addressSelect" disabled> -->
         </div>
         <div class="addAddress_row">
-            <input type="text" placeholder="详细地址" v-model="newAddress.addr">
+            <input type="text" placeholder="详细地址" v-model="newAddress.detail">
         </div>
 
         <div class="addAddress_row default_row flex-row">
@@ -20,7 +20,7 @@
                 <div class="litileFont">（注：每次下单时都会使用该地址）</div>
             </div>
             <div class="flex-grow-0 set_default flex-y-center flex-x-center">
-                <van-switch v-model="checked" size=".24rem" active-color="#C02C28" inactive-color="#999" />
+                <van-switch v-model="newAddress.is_default" size=".24rem" active-color="#C02C28" inactive-color="#999" />
             </div>
         </div>
 
@@ -63,22 +63,26 @@
     export default {
         data() {
             return {
-                checked: true,
                 areaList: area,
                 show: false,
                 showArea: '所在地区',
                 newAddress: {
                     province: '', //省
                     city: '', // 市
-                    area: '', // 区
-                    receiveName: '', // 收件人姓名
-                    addr: '', // 详细地址
-                    phone: ''
+                    district: '', // 区
+                    signer_name: '', // 收件人姓名
+                    detail: '', // 详细地址
+                    signer_mobile: '',
+                    is_default: false
                 },
             }
         },
         mounted: function () {
-            this.noAdd = 0
+            if (this.$route.query.id) {
+                let data = JSON.parse(this.$route.query.id)
+                this.newAddress = JSON.parse(this.$route.query.id)
+                this.showArea = data.province + '-' + data.city + '-' + data.district
+            }
         },
         methods: {
             ...mapActions(["showMsg"]),
@@ -96,16 +100,16 @@
                 this.show = false
                 this.newAddress.province = e[0].name
                 this.newAddress.city = e[1].name
-                this.newAddress.area = e[2].name
+                this.newAddress.district = e[2].name
             },
             addAddress() {
-                if (this.newAddress.receiveName == '') {
+                if (this.newAddress.signer_name == '') {
                     Toast('请输入收货人姓名');
-                } else if (this.newAddress.phone == '') {
+                } else if (this.newAddress.signer_mobile == '') {
                     Toast('请输入手机号码');
                 } else if (this.showArea == '所在地区') {
                     Toast('请选择所在地区');
-                } else if (this.newAddress.addr == '') {
+                } else if (this.newAddress.detail == '') {
                     Toast('请输入详细地址');
                 } else {
                     this.axios

@@ -2,7 +2,11 @@
     <div class="content flex flex-col">
         <div class="flex-row selectAddress flex-y-center" @click="goAddressList">
             <div class="flex-grow-0 select_address"><img src="~images/address.png" alt=""></div>
-            <div class="flex-grow-1">请填写收货地址</div>
+            <div class="flex-grow-1 flex-col" v-if="address">
+                <span>{{address.signer_name+'-'+address.signer_mobile+'-'+address.detail}}</span>
+                <span>{{address.province+'-'+address.city+'-'+address.district}}</span>
+            </div>
+            <div class="flex-grow-1" v-else>请填写收货地址</div>
             <div class="flex-grow-0 select_lat"><img src="~images/right.png" alt=""></div>
         </div>
 
@@ -38,13 +42,13 @@
         </div>
         <div class="flex-x-between shop_div flex-y-center">
             <div>运费</div>
-            <div>免运费</div>
+            <div>{{yunfei}}</div>
         </div>
 
-         <div class="flex-row flex-x-between settelBut">
+        <div class="flex-row flex-x-between settelBut">
             <div class="flex-row">
                 <div class="setLeftTitle">应付总额:</div>
-                <div class="setPrice">￥{{totlaPrice}}</div>
+                <div class="setPrice">￥{{totlaPrice+yunfei}}</div>
             </div>
             <div class="flex-row">
                 <div class="goodsNum">共{{goodNum}}件商品</div>
@@ -59,34 +63,91 @@
         mapState,
         mapActions
     } from "vuex";
+    import api from "@/utils/api";
 
     export default {
         data() {
             return {
-                totlaPrice:0,
-                goodNum:0,
-                submitList:[],
+                totlaPrice: 0,
+                goodNum: 0,
+                submitList: [],
+                address: {},
+                yunfei: 0
             }
         },
         mounted: function () {
-            this.submitList=JSON.parse(this.$route.query.submitList)
-            this.goodNum=JSON.parse(this.$route.query.submitList).length
+            this.submitList = JSON.parse(sessionStorage.getItem('submitList'))
+            this.goodNum = JSON.parse(sessionStorage.getItem('submitList')).length
             this.getTotalPrice(this.submitList)
+            this.init()
         },
         methods: {
             ...mapActions(["showMsg"]),
-            goAddressList(){
-                 this.$router.push({
+            init() {
+                if (this.$route.query.id) {
+                    this.address = JSON.parse(this.$route.query.id)
+                    this.getYunfei()
+                } else {
+                    this.axios
+                        .get(api.address)
+                        .then(res => {
+                            res.forEach(item => {
+                                if (item.is_default == true) {
+                                    this.address = item
+                                    this.getYunfei()
+                                }
+                            })
+                        });
+                }
+            },
+            getYunfei() {
+                this.axios
+                    .get(api.postfee, {
+                        params: {
+                            address_province: this.address.province,
+                            address_city: this.address.city,
+                            address_district: this.address.district,
+                            address_detail: this.address.detail,
+                            signer_name: this.address.signer_name,
+                            singer_mobile: this.address.signer_mobile,
+                        }
+                    })
+                    .then(res => {
+                        this.yunfei = res.post_fee
+                    });
+            },
+            goAddressList() {
+                this.$router.push({
                     name: "address_list"
                 });
             },
-            submitOrder(){
-
+            submitOrder() {
+                if (this.address) {
+                    let data = {
+                        post_script: '无',
+                        address_province: this.address.province,
+                        address_city: this.address.city,
+                        address_district: this.address.district,
+                        address_detail: this.address.detail,
+                        signer_name: this.address.signer_name,
+                        singer_mobile: this.address.signer_mobile,
+                        order_mount: this.totlaPrice,
+                        order_goods_list: []
+                    }
+                    this.axios
+                        .post(api.orders, data)
+                        .then(res => {
+                            window.location.href = res.alipay_url
+                        });
+                } else {
+                    this.showMsg('请选择地址')
+                }
             },
-            getTotalPrice(info){
-                for(var i=0;i<info.length;i++){
-                    if(info[i].checked==true){
-                        this.totlaPrice+=(info[i].goods.discount_price)*(info[i].nums)
+            getTotalPrice(info) {
+
+                for (var i = 0; i < info.length; i++) {
+                    if (info[i].checked == true) {
+                        this.totlaPrice += (info[i].goods.discount_price) * (info[i].nums)
                     }
                 }
             }
@@ -102,9 +163,8 @@
 
     .selectAddress {
         width: 7.5rem;
-        height: .9rem;
+        height: 1rem;
         background: rgba(255, 255, 255, 1);
-        line-height: .9rem;
         font-size: .27rem;
         color: #666;
         padding: 0 .26rem;
@@ -211,16 +271,18 @@
 
 
     }
-    .shop_div{
-        width:7.5rem;
-        height:.9rem;
+
+    .shop_div {
+        width: 7.5rem;
+        height: .9rem;
         background: #fff;
-        margin-top:0.02rem;
-        padding:0 .25rem;
-        font-size:.27rem;
-        color:#343434;
+        margin-top: 0.02rem;
+        padding: 0 .25rem;
+        font-size: .27rem;
+        color: #343434;
     }
-     .settelBut {
+
+    .settelBut {
         height: .97rem;
         background: #fff;
         width: 7.5rem;
@@ -256,6 +318,6 @@
             text-align: center;
         }
 
-      
+
     }
 </style>
