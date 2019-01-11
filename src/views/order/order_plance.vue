@@ -77,7 +77,8 @@
             ...mapActions(["showMsg"]),
             goAddressList(){
                  this.$router.push({
-                    name: "address_list"
+                    name: "address_list",
+                    // query:{submitList:JSON.stringify(this.submitList)}
                 });
             },
             submitOrder(){

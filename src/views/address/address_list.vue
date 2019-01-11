@@ -1,7 +1,7 @@
 <template>
     <div class="content flex flex-col">
         <div class="address flex-row flex-y-center" v-for="(i,index) in list" :key="index">
-            <div class="flex-grow-1 flex-col flex-x-center">
+            <div class="flex-grow-1 flex-col flex-x-center" @click="backGoods(i.id)">
                 <div>{{i.signer_name}} {{i.signer_mobile}}</div>
                 <div class="address_font">{{i.province+i.city+i.district}}</div>
             </div>
@@ -27,24 +27,33 @@
     export default {
         data() {
             return {
-                list: []
+                list: [],
+                submitList: []
             }
         },
         mounted: function () {
             this.init()
+            // this.submitList = JSON.parse(this.$route.query.submitList)
         },
         methods: {
             ...mapActions(["showMsg"]),
             init() {
-                this.axios
-                    .get(api.address)
-                    .then(res => {
+                this.axios.get(api.address).then(res => {
                         this.list = res
                     });
             },
             addAddreaa() {
                 this.$router.push({
                     name: "address_add"
+                });
+            },
+            backGoods(id) {
+                this.$router.push({
+                    name: "order_plance",
+                    query: {
+                        id: id,
+                        // submitList: JSON.stringify(this.submitList)
+                    }
                 });
             }
 
