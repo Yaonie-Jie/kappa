@@ -122,6 +122,15 @@
                 });
             },
             submitOrder() {
+                let subList = []
+                this.submitList.forEach(item => {
+                    subList.push({
+                        color: item.color,
+                        size: item.size,
+                        nums: item.nums,
+                        goods: item.goods.id
+                    })
+                })
                 if (this.address) {
                     let data = {
                         post_script: '无',
@@ -144,7 +153,7 @@
                 }
             },
             getTotalPrice(info) {
-
+                console.log(info)
                 for (var i = 0; i < info.length; i++) {
                     if (info[i].checked == true) {
                         this.totlaPrice += (info[i].goods.discount_price) * (info[i].nums)

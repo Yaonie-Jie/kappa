@@ -9,7 +9,7 @@
                 <div class="flex-grow-0 getCode" @click="getCode">{{codeText}}</div>
             </div>
             <div class="register_input">
-                <input type="password" maxlength="6" pattern="[0-9]*" placeholder="请输入密码" v-model="password">
+                <input type="password" maxlength="20" placeholder="请输入密码" v-model="password">
             </div>
             <div class="register_submit" @click="register">注册</div>
         </div>
@@ -39,12 +39,12 @@
             getCode() {
                 if (this.isdisabled) {
                     if (this.iphone && this.iphonetest.test(this.iphone)) {
-                        this.setTime()
                         this.isdisabled = false
                         this.axios.post(api.getMessage, {
                             mobile: this.iphone,
                         }).then(res => {
-
+                            Toast('验证码发送成功');
+                            this.setTime()
                         });
                     } else {
                         Toast('请输入正确的手机号');
@@ -53,12 +53,13 @@
             },
             setTime() {
                 let _this = this;
-                setInterval(() => {
+                _this.t = setInterval(() => {
                     if (_this.time > 0) {
                         _this.codeText = _this.time + "s";
                         _this.time--;
-                         _this.isdisabled = false
+                        _this.isdisabled = false
                     } else {
+                        clearInterval(_this.t);
                         _this.codeText = "获取验证码";
                         _this.time = 60;
                         _this.isdisabled = true;
@@ -67,13 +68,15 @@
             },
             register() {
                 if (this.iphone && this.iphonetest.test(this.iphone) && this.verfCode && this.password) {
-                    this.axios.post(api.getMessage, {
+                    this.axios.post(api.resetpasswd, {
                         username: this.iphone,
                         password: this.password,
                         code: this.verfCode,
                         mobile: this.iphone,
                     }).then(res => {
-
+                        this.$router.push({
+                            name: "home"
+                        });
                     }).catch(function (error) {
                         Toast(error);
                     });

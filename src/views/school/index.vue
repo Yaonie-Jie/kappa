@@ -35,7 +35,6 @@
                 </li>
             </ul>
         </div>
-        <div class="bot">dibu</div>
 
     </div>
 </template>
@@ -67,6 +66,7 @@
         created() {
             this.page = 1
             this.catList = []
+            this.name = this.$route.query.name || ''
             this.init()
             window.addEventListener('scroll', this.handleScroll)
         },
@@ -90,8 +90,11 @@
                 //分类
                 this.axios.get(api.schools).then(res => {
                     this.navList = res
-                    this.navType = res[0].name
-                    this.name = res[0].name
+                    if (!this.name) {
+                        this.navType = res[0].name
+                        this.name = res[0].name
+                    }
+                    this.navType = this.name
                     this.getGoodList()
                 });
             },

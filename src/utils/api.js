@@ -15,8 +15,6 @@ export default {
   orders: "/orders/",
   postfee: "/postfee/",
   //添加收货地址 post 获取收货地址 get  修改收货地址 patch addressId  传参
-  //注册
-  resetpasswd:"/resetpasswd/",
   // 获取手机验证码
-  getMessage:"/getMessage/" 
+  getMessage:"/codes/" 
 };

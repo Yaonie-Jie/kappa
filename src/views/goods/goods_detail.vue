@@ -27,13 +27,13 @@
       <div class="flex-row">
         <div class="flex-grow-1 flex-row">
           <div class="flex-grow-0 selectFont">配送</div>
-          <div class="flex-grow-1 sizeFont">杭州 至 北京市东城区</div>
+          <div class="flex-grow-1 sizeFont">{{goods.express}}</div>
         </div>
         <div class="flex-grow-0 flex-y-center">
           <van-icon name="ellipsis" size="20px" />
         </div>
       </div>
-      <div class="flex-row freeShip">{{goods.express}}</div>
+      <div class="flex-row freeShip"></div>
     </div>
 
 
@@ -51,6 +51,8 @@
       :quota="sku.quota" :quota-used="sku.quotaUsed" :reset-stepper-on-hide="sku.resetStepperOnHide"
       :reset-selected-sku-on-hide="sku.resetSelectedSkuOnHide" :close-on-click-overlay="sku.closeOnClickOverlay"
       :disable-stepper-input="sku.disableStepperInput" @buy-clicked="onBuyClicked" @add-cart="onAddCartClicked" />
+
+    <div v-html="goods_desc"></div>
 
 
   </div>
@@ -94,6 +96,7 @@
     data() {
       return {
         showBase: false,
+        goods_desc: '',
         goods: {
           goodsId: '',
           title: '',
@@ -122,7 +125,9 @@
     methods: {
       init() {
         this.axios.get(api.goods + this.goods.goodsId + '/').then(res => {
+          this.goodsDetail = res
           this.subgoods_list = res.subgoods_list
+          this.goods_desc = res.goods_desc
           //规格
           var subList = []
           let subList2 = []
@@ -182,8 +187,6 @@
             hide_stock: true // 是否隐藏剩余库存
           }
 
-          // this.setSku(res.subgoods_list[0])
-
           var goodsList = {
             // 商品标题
             title: res.name,
@@ -203,34 +206,56 @@
         this.showBase = true
       },
       sorry() {
-        Toast('暂无后续逻辑~');
+        this.showBase = true
       },
       onBuyClicked(e) {
-        // console.log(e)
-        // this.axios.post(api.addshopcarts, {
-        //   goods: e.goodsId, // 商品id
-        //   nums: e.selectedNum, // 购买数量
-        //   size: e.selectedSkuComb.s2,
-        //   color: e.selectedSkuComb.s1,
-        // }).then(res => {
+        let color_name = ''
+        let size_name = ''
+        this.goodsDetail.subgoods_list.forEach(item => {
+          if (item.color.id == e.selectedSkuComb.s1) {
+            color_name = item.color.desc
+            item.sizegoods_list.forEach(siz => {
+              if (siz.size.id == e.selectedSkuComb.s2) {
+                size_name = siz.size.desc
+              }
+            })
+          }
+        })
 
-        // });
+        let data = [{
+          color: e.selectedSkuComb.s1,
+          size: e.selectedSkuComb.s2,
+          nums: e.selectedNum,
+          color_name: color_name,
+          size_name: size_name,
+          checked: true,
+          goods: {
+            name: this.goodsDetail.name,
+            discount_price: this.goodsDetail.price,
+            goods_front_image_url: this.goodsDetail.goods_front_image_url
+          }
+        }]
+        sessionStorage.setItem('submitList', JSON.stringify(data))
+        this.$router.push({
+          name: "order_plance"
+        });
       },
       onAddCartClicked(e) {
+        let _this = this
         this.axios.post(api.addshopcarts, {
           goods: e.goodsId, // 商品id
           nums: e.selectedNum, // 购买数量
           size: e.selectedSkuComb.s2,
           color: e.selectedSkuComb.s1,
         }).then(res => {
+          Toast('添加购物车成功');
 
+          setTimeout(() => {
+            _this.$router.push({
+              name: "shop_list",
+            });
+          }, 1500)
         });
-      },
-      setSku(pro) {
-        console.log(pro)
-      },
-      setGoods() {
-
       }
     }
   };

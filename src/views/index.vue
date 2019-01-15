@@ -33,7 +33,7 @@
           <div class="title flex-row flex-y-center">
             <div class="xian flex-grow-0"></div>
             <div class="titleFont flex-grow-1">{{item.name}}</div>
-            <div class="f28 flex-grow-0" style="color:#666666;">更多</div>
+            <div class="f28 flex-grow-0" style="color:#666666;" @click="showMore(item)">更多</div>
             <img class="icon_right flex-grow-0" src="~images/icon_right.png" alt="">
           </div>
           <ul class="flex-col">
@@ -87,9 +87,21 @@
         if (name != 'home') {
           this.updata_clickTab('school');
           this.$router.push({
-            name: "school"
+            name: "school",
+            query: {
+              name: name
+            }
           });
         }
+      },
+      showMore(item) {
+        this.updata_clickTab('school');
+        this.$router.push({
+          name: "school",
+          query: {
+            name: item.name
+          }
+        });
       },
       init() {
         //分类
@@ -229,7 +241,6 @@
       width: 3.48rem;
       height: 1.7rem;
       border-radius: .1rem;
-      background: #C02C28;
     }
   }
 

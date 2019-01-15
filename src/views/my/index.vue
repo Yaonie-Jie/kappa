@@ -5,7 +5,7 @@
             <div class="nickName">用户a</div>
         </div>
         <ul class="menu flex-row flex-x-around">
-            <li class="flex-col flex-x-center flex-y-center" @click="goOrderList(0)">
+            <li class="flex-col flex-x-center flex-y-center" @click="goOrderList()">
                 <img class="menuIcon" src="~images/dingdan.png" alt="">
                 <span>全部订单</span>
             </li>

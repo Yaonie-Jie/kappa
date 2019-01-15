@@ -6,14 +6,14 @@
         </ul>
         <div class="flex-col">
             <div class="ordershow flex-col" v-for="item in list" :key="item.id">
-                <div class="commodityMsg flex-row" v-for="i in item.order_goods_list" :key="i.id">
+                <div class="commodityMsg flex-row" v-for="i in item.order_goods_list" :key="i.id" @click="toOrderDetail(item)">
                     <div class="flex-grow-0 commodityImg">
                         <img :src="i.goods.goods_front_image_url" alt="">
                     </div>
                     <div class="flex-grow-1 commodityIntro flex-col flex-x-center">
                         <div class="commodityTitle">{{i.goods.name}}</div>
                         <div class="commoditySpeci flex-x-between ">
-                            <!-- <div>已选：{{i.color}}</div> -->
+                            <div>已选：{{i.colorName +'-'+i.sizeName}}</div>
                             <div>X1</div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
             }
         },
         mounted: function () {
-            this.trade_status = this.$route.query.id
+            this.trade_status = this.$route.query.id || ''
             this.init()
         },
         methods: {
@@ -74,12 +74,41 @@
                         }
                     })
                     .then(res => {
+                        res.forEach(item => {
+                            let goods_list = item.order_goods_list
+                            goods_list.forEach(goods => {
+                                let color = goods.color
+                                let size = goods.size
+                                let sizeName = ''
+                                let colorName = ''
+                                let sub_list = goods.goods.subgoods_list
+                                sub_list.forEach(sub => {
+                                    if (color == sub.color.id) {
+                                        colorName = sub.color.desc
+                                        let size_list = sub.sizegoods_list
+                                        size_list.forEach(siz => {
+                                            if (size == siz.size.id) {
+                                                sizeName = siz.size.desc
+                                            }
+                                        })
+                                    }
+                                })
+                                goods.colorName = colorName
+                                goods.sizeName = sizeName
+                            })
+                        })
                         this.list = res
                     });
             },
             goOrderList(item) {
                 this.trade_status = item.id
                 this.init()
+            },
+            toOrderDetail(i) {
+                sessionStorage.setItem('order_detail',JSON.stringify(i))
+                this.$router.push({
+                    name: "order_detail",
+                });
             },
             cancal(item) {
                 this.axios

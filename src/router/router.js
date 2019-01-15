@@ -48,6 +48,15 @@ export default [{
     component: () => import("@/views/order/order_list.vue"),
   },
   {
+    path: "/order_detail",
+    name: "order_detail",
+    meta: {
+      title: "订单详情",
+      requireAuth: true
+    },
+    component: () => import("@/views/order/order_detail.vue"),
+  },
+  {
     path: "/order_plance",
     name: "order_plance",
     meta: {
